@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 import torch.utils.data
 import yaml
-
+from typing import Tuple
 import datasets
 import models
 import utils
@@ -16,18 +16,18 @@ class Builder:
         self.model_name = ''
 
         # Load configs
-        with open(os.path.join('configs', 'main.yaml')) as f:
+        with open(os.path.join('/content/face-parsing-pytorch/configs', 'main.yaml')) as f:
             main = yaml.safe_load(f)
-        with open(os.path.join('configs', main['config'])) as f:
+        with open(os.path.join('/content/face-parsing-pytorch/configs', main['config'])) as f:
             dataset_with_model = yaml.safe_load(f)
-        with open(os.path.join('configs', 'train.yaml')) as f:
+        with open(os.path.join('/content/face-parsing-pytorch/configs', 'train.yaml')) as f:
             train = yaml.safe_load(f)
         self.config.update(main)
         self.config.update(dataset_with_model)
         self.config.update(train)
         self.model_name = self.config['model_name']
 
-    def build_dataset(self, dataset_type: str, ddp_enabled=False) -> tuple[torch.utils.data.Dataset,
+    def build_dataset(self, dataset_type: str, ddp_enabled=False) -> Tuple[torch.utils.data.Dataset,
                                                                            torch.utils.data.DataLoader]:
         cfg_dataset = self.config['dataset']
 

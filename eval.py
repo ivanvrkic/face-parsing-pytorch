@@ -1,7 +1,7 @@
 import csv
 import os
 import time
-
+from typing import Tuple
 import torch
 import torch.utils.data
 import torch.distributed
@@ -16,7 +16,7 @@ def evaluate(model: torch.nn.Module,
              num_classes: int,
              amp_enabled: bool,
              ddp_enabled: bool,
-             device: torch.device) -> tuple[float, float, list, float]:
+             device: torch.device) -> Tuple[float, float, list, float]:
     model.eval()
 
     if ddp_enabled:

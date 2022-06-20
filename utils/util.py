@@ -3,7 +3,7 @@ import torch
 import torchvision
 import torchvision.transforms.functional as TF
 from torch import Tensor
-
+from typing import List
 
 def inverse_normalize(tensor: Tensor, mean: Tensor, std: Tensor, inplace=False) -> Tensor:
     tensor = TF.normalize(tensor, (-mean / std).tolist(), (1.0 / std).tolist(), inplace)
@@ -43,7 +43,7 @@ def draw_segmentation_masks(images: Tensor, masks: Tensor, colors: list, alpha=0
         return alpha_colored_mask
 
 
-def generate_color_palette(num_classes: int) -> list[tuple]:
+def generate_color_palette(num_classes: int) -> List[tuple]:
     palette = torch.tensor([2 ** 25 - 1, 2 ** 15 - 1, 2 ** 21 - 1])
     return [tuple((i * palette) % 255) for i in range(num_classes)]
 
@@ -68,6 +68,7 @@ def show_dataset(images: Tensor, targets: Tensor):
 
 
 def train_early_stopper() -> bool:
+    return False
     with open('train_early_stopper.ini', 'r', encoding='utf-8') as f:
         flag = f.read().strip()
 

@@ -1,5 +1,5 @@
-from typing import Sequence, Union
-
+from typing import Sequence, Union, Tuple
+import typing
 import numpy as np
 import torch
 import torch.nn as nn
@@ -39,7 +39,7 @@ class Transforms:
         self.to_tensor = ToTensor()
         self.normalize = Normalize(normalize_mean, normalize_std)
 
-    def __call__(self, image, target) -> tuple[torch.Tensor, torch.Tensor]:
+    def __call__(self, image, target) -> Tuple[torch.Tensor, torch.Tensor]:
         data = {'image': image, 'target': target}
 
         data = self.to_tensor(data)
@@ -71,7 +71,7 @@ class ColorJitter(torchvision.transforms.ColorJitter):
 
 
 class GaussianBlur(torchvision.transforms.GaussianBlur):
-    def __init__(self, kernel_size: int, sigma=tuple[float, float]):
+    def __init__(self, kernel_size: int, sigma=Tuple[float, float]):
         super().__init__(kernel_size, sigma)
 
     def forward(self, data: dict) -> dict:
@@ -91,7 +91,7 @@ class RandomAdjustSharpness(torchvision.transforms.RandomAdjustSharpness):
 
 
 class RandomCrop(torchvision.transforms.RandomCrop):
-    def __init__(self, size: tuple[int, int]):
+    def __init__(self, size: Tuple[int, int]):
         super().__init__(size)
 
     def forward(self, data: dict) -> dict:
@@ -160,8 +160,8 @@ class RandomResizedCrop(torchvision.transforms.RandomResizedCrop):
     """
 
     def __init__(
-            self, size: Union[int, Sequence], scale: Union[tuple[float, float], str],
-            ratio: Union[tuple[float, float], str]
+            self, size: Union[int, Sequence], scale: Union[Tuple[float, float], str],
+            ratio: Union[Tuple[float, float], str]
     ):
         if ratio == 'auto':
             ratio = (size[1] / size[0], size[1] / size[0])
@@ -183,7 +183,7 @@ class RandomResizedCrop(torchvision.transforms.RandomResizedCrop):
 
 
 class Resize(torchvision.transforms.Resize):
-    def __init__(self, size: tuple[int, int]):
+    def __init__(self, size: Tuple[int, int]):
         super().__init__(size)
 
     def forward(self, data: dict) -> dict:

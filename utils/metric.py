@@ -1,5 +1,5 @@
 import torch
-
+from typing import Tuple
 
 class Evaluator:
     def __init__(self, num_classes: int, device: torch.device):
@@ -36,7 +36,7 @@ class Evaluator:
                                                    torch.diag(self.confusion_matrix))
         return iou
 
-    def mean_intersection_over_union(self, ignore_zero_class: bool, percent=False) -> tuple[torch.Tensor, torch.Tensor]:
+    def mean_intersection_over_union(self, ignore_zero_class: bool, percent=False) -> Tuple[torch.Tensor, torch.Tensor]:
         iou = self.intersection_over_union(ignore_zero_class)
 
         if percent:
@@ -54,7 +54,7 @@ class Evaluator:
                                                             self.confusion_matrix.sum(dim=1))
         return f1_score
 
-    def mean_f1_score(self, ignore_zero_class: bool, percent=False) -> tuple[torch.Tensor, torch.Tensor]:
+    def mean_f1_score(self, ignore_zero_class: bool, percent=False) -> Tuple[torch.Tensor, torch.Tensor]:
         f1_score = self.f1_score(ignore_zero_class)
 
         if percent:
