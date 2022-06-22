@@ -182,6 +182,7 @@ if __name__ == '__main__':
             writer.add_images('eval/2' + model_name, outputs, eph)
 
         if local_rank == 0:
+            weight_path = '/content/drive/MyDrive/colab/weights_new'
             # Save checkpoint
             os.makedirs('weights', exist_ok=True)
             torch.save({
@@ -192,24 +193,24 @@ if __name__ == '__main__':
                 'epoch': eph,
                 'mean_f1': mean_f1,
                 'val_loss': val_loss
-            }, os.path.join('weights', f'{model_name}_checkpoint.pth'))
+            }, os.path.join(weight_path, f'{model_name}_checkpoint.pth'))
 
             # Save latest model
             state_dict = utils.state_dict.convert_ddp_state_dict(model.state_dict())
-            torch.save(state_dict, os.path.join('weights', f'{model_name}_latest.pth'))
+            torch.save(state_dict, os.path.join(weight_path, f'{model_name}_latest.pth'))
 
-            # Save model per 5 epoch
-            if eph % 5 == 0:
-                torch.save(state_dict, os.path.join('weights', f'{model_name}_{eph}epoch.pth'))
+            # Save model per 3 epoch
+            if eph % 3 == 0:
+                torch.save(state_dict, os.path.join(weight_path, f'{model_name}_{eph}epoch.pth'))
 
             # Save best mean_f1 model
             if mean_f1 > prev_mean_f1:
-                torch.save(state_dict, os.path.join('weights', f'{model_name}_best_mean_f1.pth'))
+                torch.save(state_dict, os.path.join(weight_path, f'{model_name}_best_mean_f1.pth'))
                 prev_mean_f1 = mean_f1
 
             # Save best val_loss model
             if val_loss < prev_val_loss:
-                torch.save(state_dict, os.path.join('weights', f'{model_name}_best_val_loss.pth'))
+                torch.save(state_dict, os.path.join(weight_path, f'{model_name}_best_val_loss.pth'))
                 prev_val_loss = val_loss
     if writer is not None:
         writer.close()
