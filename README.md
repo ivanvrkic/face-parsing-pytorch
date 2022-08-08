@@ -1,4 +1,4 @@
-# Face-parsing-pytorch (작성 중... 설명 불일치)
+# Face-parsing-pytorch 
 
 > PyTorch implementation of semantic segmentation models.
 
